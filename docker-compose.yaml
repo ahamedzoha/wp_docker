@@ -14,16 +14,21 @@ services:
       MYSQL_PASSWORD: wordpress
     networks: 
       - wpsite
+  # PhpMyAdmin
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
   # Wordpress
   wordpress:
     depends_on:
       - db
-    image: wordpress_latest
+    image: wordpress:latest
     ports:
       - '8000:80'
       - '443:443'
     restart: always
-    volumes: ['./:/var/www/html']
+    volumes: ['./:/var/www/html/wp-content']
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: wordpress
